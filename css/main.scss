@@ -1,0 +1,137 @@
+---
+# Main Styles
+---
+
+$blue: #2950C3;
+
+@mixin noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: Lato, Helvetica, Arial, sans-serif;
+  background-color: #FFF;
+  font-size: small;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 { margin-bottom: 1em; }
+p { margin: 1em 0; }
+
+a         { color: $blue; }
+a:hover   { color: lighten($blue, 10%); }
+a:visited { color: $blue; }
+
+/*****************************************************************************/
+/*
+/* Home
+/*
+/*****************************************************************************/
+.main {
+  .banner {
+    font-size: 4em;
+    font-weight: 300;
+    margin-bottom: 1.7em;
+    margin-top: 2.3em;
+    text-align: center;
+    span {
+      font-weight: 700;
+    }
+
+    p.smaller {
+      margin-top: 0.5em;
+      font-size: 0.5em;
+      font-weight: 300;
+    }
+  }
+  .banner-small {
+    font-weight: 1.5em;
+    text-align: center;
+    margin-bottom: 1.7em;
+    margin-top: 1.7em;
+    a.logo {
+      display: block;
+      margin-bottom: 0.2em;
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+    a, a:visited {
+      text-align: center;
+      color: $blue;
+      text-decoration: none;
+    }
+  }
+}
+
+/*****************************************************************************/
+/*
+/* Site
+/*
+/*****************************************************************************/
+
+.site {
+  font-size: 115%;
+  overflow: auto;
+}
+
+.header a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.title {
+  display: inline-block;
+  margin-bottom: 2em;
+}
+
+.title a {
+  color: #a00;
+}
+
+.title a:hover {
+  color: #000;
+}
+
+.header a.extra {
+  color: #aaa;
+  margin-left: 1em;
+}
+
+.header a.extra:hover {
+  color: #000;
+}
+
+.meta {
+  color: #aaa;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  clear: both;
+  font-size: 80%;
+  color: #666;
+  overflow: hidden;
+}
+
+.footer .contact {
+  span {
+    color: #ccc;
+  }
+}
