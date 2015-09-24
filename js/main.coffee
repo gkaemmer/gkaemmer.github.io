@@ -2,7 +2,7 @@
 # Main script
 ---
 
-window.pointsCount = 50
+window.pointsCount = 100
 window.lineToPoints = 10
 window.recalcTicks = 25
 
@@ -53,14 +53,21 @@ class Point
 
   draw: (ctx) ->
     return unless @nearbyPoints
+    @alphaMultiplier = 0
+    if window.mousePoint
+      @alphaMultiplier = Math.exp(-@distanceSquaredTo(window.mousePoint) / 25000)
     for point, i in @nearbyPoints
       continue if point == @
-      alpha = 0.1 * Math.min(1500 / @distanceSquaredTo(point), 1)
+      alpha = @lineAlpha @alphaMultiplier, @distanceSquaredTo(point)
       ctx.strokeStyle = rgba(0, 0, 0, alpha)
       ctx.beginPath();
       ctx.moveTo(@x, @y)
       ctx.lineTo(point.x, point.y)
       ctx.stroke()
+
+  lineAlpha: (multiplier, distance) ->
+    multiplier = 0.1 + multiplier * 0.1
+    multiplier * Math.exp(-distance / 3000)
 
 $ ->
   engine = new Engine('bg-canvas')
@@ -85,6 +92,11 @@ $ ->
   update = ->
     point.update(points) for point in points
     setTimeout(update, 20)
+
+  $(window).mousemove (e) ->
+    window.mousePoint ||= new Point()
+    window.mousePoint.x = e.pageX
+    window.mousePoint.y = e.pageY
 
   setTimeout(update, 20)
   setTimeout(draw, 20)
