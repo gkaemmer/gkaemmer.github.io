@@ -80,14 +80,12 @@ $ ->
   engine.setFps(50)
   ctx = engine.ctx
 
+  stop = false
+
   points = []
 
-  for i in [1..window.pointsCount]
-    point = new Point
-    point.placeRandom(engine.W, engine.H)
-    points.push(point)
-
   draw = ->
+    return if stop
     ctx.fillStyle = rgb(255,255,255);
     ctx.fillRect(0, 0, engine.W, engine.H)
     point.move() for point in points
@@ -95,14 +93,38 @@ $ ->
     setTimeout(draw, 20)
 
   update = ->
+    return if stop
+    console.log("Update #{window.pointsCount}") if Math.random() > 0.99
+    now = new Date().getTime()
     point.wrap() for point in points
     point.update(points) for point in points
     setTimeout(update, 20)
+    if new Date().getTime() - now > 50 # If tick took longer than 100 milliseconds
+      console.log("Reducing pointsCount by 25")
+      window.pointsCount -= 25
+      reset()
 
   $(window).mousemove (e) ->
     window.mousePoint ||= new Point()
     window.mousePoint.x = e.pageX
     window.mousePoint.y = e.pageY
 
-  setTimeout(update, 20)
-  setTimeout(draw, 20)
+  updateTimeout = drawTimeout = 0 
+
+  reset = ->
+    if window.pointsCount <= 0
+      stop = true
+      return
+    
+    points = []
+
+    for i in [1..window.pointsCount]
+      point = new Point
+      point.placeRandom(engine.W, engine.H)
+      points.push(point)
+
+    updateTimeout = setTimeout(update, 20)
+    drawTimeout = setTimeout(draw, 20)
+
+  reset()
+
