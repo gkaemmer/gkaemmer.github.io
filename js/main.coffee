@@ -42,12 +42,12 @@ class Point
   move: ->
     @x += @vx
     @y += @vy
+
+  update: (points) ->
     @x -= @maxX if @x > @maxX
     @x += @maxX if @x < 0
     @y -= @maxY if @y > @maxY
     @y += @maxY if @y < 0
-
-  update: (points) ->
     @nearbyCounter++
     if !@nearbyPoints || @nearbyCounter > window.recalcTicks
       @nearbyCounter -= window.recalcTicks
@@ -58,10 +58,10 @@ class Point
     return unless @nearbyPoints
     @alphaMultiplier = 0
     if window.mousePoint
-      @alphaMultiplier = Math.exp(-@distanceSquaredTo(window.mousePoint) / 25000)
+      @alphaMultiplier = Math.exp(-@distanceSquaredToCache(window.mousePoint) / 25000)
     for point, i in @nearbyPoints
       continue if point == @
-      alpha = @lineAlpha @alphaMultiplier, @distanceSquaredTo(point)
+      alpha = @lineAlpha @alphaMultiplier, @distanceSquaredToCache(point)
       ctx.strokeStyle = rgba(0, 0, 0, alpha)
       ctx.beginPath();
       ctx.moveTo(@x, @y)
