@@ -43,11 +43,13 @@ class Point
     @x += @vx
     @y += @vy
 
-  update: (points) ->
+  wrap: ->
     @x -= @maxX if @x > @maxX
     @x += @maxX if @x < 0
     @y -= @maxY if @y > @maxY
     @y += @maxY if @y < 0
+
+  update: (points) ->
     @nearbyCounter++
     if !@nearbyPoints || @nearbyCounter > window.recalcTicks
       @nearbyCounter -= window.recalcTicks
@@ -93,6 +95,7 @@ $ ->
     setTimeout(draw, 20)
 
   update = ->
+    point.wrap() for point in points
     point.update(points) for point in points
     setTimeout(update, 20)
 
