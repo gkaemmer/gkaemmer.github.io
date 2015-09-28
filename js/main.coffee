@@ -2,7 +2,7 @@
 # Main script
 ---
 
-window.pointsCount = 100
+window.pointsCount = 75
 window.lineToPoints = 10
 window.recalcTicks = 25
 
@@ -24,8 +24,11 @@ class Point
   resetDistanceCache: ->
     @distanceCache = {}
 
-  distanceSquaredTo: (point) ->
+  distanceSquaredToCache: (point) ->
     return @distanceCache[point] if @distanceCache[point]
+    @distanceSquaredTo(point)
+
+  distanceSquaredTo: (point) ->
     dx = @x - point.x
     dy = @y - point.y
     dx * dx + dy * dy
@@ -33,7 +36,7 @@ class Point
   getNearbyPoints: (points) ->
     self = @
     nearbyPoints = points.sort (pointA, pointB) ->
-      self.distanceSquaredTo(pointA) - self.distanceSquaredTo(pointB)
+      self.distanceSquaredToCache(pointA) - self.distanceSquaredToCache(pointB)
     @nearbyPoints = nearbyPoints[0..window.lineToPoints]
 
   move: ->
