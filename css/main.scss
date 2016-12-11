@@ -151,3 +151,20 @@ a:visited { color: $blue; }
     color: #ccc;
   }
 }
+
+$grey: #ccc;
+
+.field {
+  cursor: pointer;
+  color: #aaa;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 10px;
+
+  font-size: 1.4em;
+
+  .grad, .paren, .equals {
+    color: $grey;
+  }
+}

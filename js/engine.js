@@ -7,11 +7,14 @@ var Engine = function(id) {
   this.H = this.canvas.height;
 }
 Engine.prototype.update = function() {};
-Engine.prototype.draw = function() {};
+Engine.prototype.doDraw = function(timestamp) {
+  this.draw();
+  window.requestAnimationFrame(this.doDraw.bind(this));
+};
 
 Engine.prototype.start = function() {
   setInterval(this.update,1000/this.fps);
-  setInterval(this.draw,1000/this.drawFps);
+  this.doDraw();
 }
 
 Engine.prototype.setFps = function(fps) {
